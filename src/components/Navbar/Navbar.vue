@@ -1,104 +1,95 @@
-<template>
-  <nav>
-    <!--title-->
-    <v-app-bar app elevate-on-scroll class="noselect">
-      <v-app-bar-nav-icon class="grey--text text--lighten-1" aria-label="Open Navigation Drawer" @click.stop="drawer = !drawer" />
-      <v-toolbar-title v-if="!$vuetify.breakpoint.xs" :class="['grey--text', { 'subheading ml-0': $vuetify.breakpoint.smAndDown }]">
-        <span class="font-weight-light">qBit</span>
-        <span>torrent</span>
-      </v-toolbar-title>
-      <v-spacer />
+<script setup lang="ts">
+import { useDashboardStore, useNavbarStore, useVueTorrentStore } from '@/stores'
+import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
+import BottomActions from './SideWidgets/BottomActions.vue'
+import CurrentSpeed from './SideWidgets/CurrentSpeed.vue'
+import FilterSelect from './SideWidgets/FilterSelect.vue'
+import FreeSpace from './SideWidgets/FreeSpace.vue'
+import SpeedGraph from './SideWidgets/SpeedGraph.vue'
+import TransferStats from './SideWidgets/TransferStats.vue'
+import ActiveFilters from './TopWidgets/ActiveFilters.vue'
+import TopContainer from './TopWidgets/TopContainer.vue'
+import TorrentSearchbar from '@/components/TorrentSearchbar.vue'
 
-      <TopMenu />
-    </v-app-bar>
-    <!--navigation drawer itself -->
-    <v-navigation-drawer v-model="drawer" app class="primary drawer" style="position: fixed" width="256" height="100%" disable-resize-watcher :right="webuiSettings.rightDrawer">
-      <v-card v-if="status" style="display: flex; flex-direction: column" class="pt-3 primary" flat>
-        <CurrentSpeed v-if="webuiSettings.showCurrentSpeed" :status="status" />
+const router = useRouter()
+const dashboardStore = useDashboardStore()
+const { isDrawerOpen } = storeToRefs(useNavbarStore())
+const { isDrawerRight, showCurrentSpeed, showSpeedGraph, showAlltimeStat, showSessionStat, showFreeSpace } = storeToRefs(useVueTorrentStore())
 
-        <SpeedGraph v-if="webuiSettings.showSpeedGraph" />
+const toggleDrawer = () => {
+  isDrawerOpen.value = !isDrawerOpen.value
+}
 
-        <TransferStats v-if="webuiSettings.showAlltimeStat" :session="false" :status="status" />
-
-        <TransferStats v-if="webuiSettings.showSessionStat" :session="true" :status="status" />
-
-        <FreeSpace v-if="webuiSettings.showFreeSpace" :space="status.freeDiskSpace" />
-
-        <FilterSelect :show-tracker-filter="webuiSettings.showTrackerFilter" />
-        <div style="font-size: 0.9em" class="download--text text-uppercase text-center mt-5">
-          {{ torrentCountString }}
-        </div>
-      </v-card>
-      <template #append>
-        <div class="pa-2">
-          <BottomActions />
-        </div>
-      </template>
-    </v-navigation-drawer>
-  </nav>
-</template>
-
-<script>
-import { mapGetters } from 'vuex'
-import { BottomActions, TopMenu, SpeedGraph, FreeSpace, TransferStats, CurrentSpeed, FilterSelect } from './index'
-
-export default {
-  name: 'Navbar',
-  components: {
-    FreeSpace,
-    BottomActions,
-    TopMenu,
-    SpeedGraph,
-    TransferStats,
-    CurrentSpeed,
-    FilterSelect
-  },
-  data() {
-    return {
-      drawer: this.$vuetify.breakpoint.mdAndUp
-    }
-  },
-  computed: {
-    ...mapGetters(['getWebuiSettings', 'getStatus', 'getTorrentCountString']),
-    webuiSettings() {
-      return this.getWebuiSettings()
-    },
-    status() {
-      return this.getStatus()
-    },
-    torrentCountString() {
-      return this.getTorrentCountString()
-    }
-  },
-  created() {
-    this.drawer = this.webuiSettings.openSideBarOnStart && this.$vuetify.breakpoint.mdAndUp
-  }
+const goHome = () => {
+  router.push({ name: 'dashboard' })
 }
 </script>
 
-<style lang="scss">
-#app > div > nav > nav > div.v-navigation-drawer__content {
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: #56718c;
-    border-radius: 20px;
-  }
-}
+<template>
+  <v-navigation-drawer class="ios-padding" v-model="isDrawerOpen" :location="isDrawerRight ? 'right' : 'left'" color="navbar" disable-route-watcher>
+    <v-list class="clean-px px-2 pt-0">
+      <v-list-item v-if="showCurrentSpeed">
+        <CurrentSpeed />
+      </v-list-item>
 
-.v-app-bar > .v-toolbar__content {
-  padding-right: 0;
-}
+      <v-list-item v-if="showSpeedGraph">
+        <SpeedGraph />
+      </v-list-item>
 
-.navbar {
-  @media screen and (max-width: 480px) {
-    .v-toolbar__title {
-      display: none;
-    }
-    .spacer {
-      display: none;
-    }
-  }
+      <v-list-item v-if="showAlltimeStat">
+        <TransferStats :session="false" />
+      </v-list-item>
+
+      <v-list-item v-if="showSessionStat">
+        <TransferStats :session="true" />
+      </v-list-item>
+
+      <v-list-item v-if="showFreeSpace">
+        <FreeSpace />
+      </v-list-item>
+
+      <v-list-item>
+        <FilterSelect />
+      </v-list-item>
+
+      <v-list-item density="compact">
+        <div class="d-flex justify-center text-accent text-select">
+          {{ dashboardStore.torrentCountString }}
+        </div>
+      </v-list-item>
+    </v-list>
+    <template v-slot:append>
+      <BottomActions />
+    </template>
+  </v-navigation-drawer>
+
+  <v-app-bar class="ios-padding">
+    <v-app-bar-nav-icon @click="toggleDrawer" />
+    <div class="title-wrapper cursor-pointer" @click="goHome">
+      <span v-if="$vuetify.display.smAndUp" class="text-accent">Vue</span>
+      <span v-if="$vuetify.display.smAndUp">Torrent</span>
+    </div>
+
+    <ActiveFilters />
+
+    <TorrentSearchbar v-if="$vuetify.display.lgAndUp" bg-color="background" class="px-6" />
+    <v-spacer v-else />
+
+    <TopContainer />
+  </v-app-bar>
+</template>
+
+<style scoped lang="scss">
+.clean-px > * {
+  padding-inline-start: 0 !important;
+  padding-inline-end: 0 !important;
+}
+.title-wrapper {
+  display: inline-flex;
+  width: min-content;
+  padding: 0.4em;
+  align-items: center;
+  font-size: larger;
 }
 </style>

@@ -1,11 +1,20 @@
-export interface FeedArticle {
+export default interface FeedArticle {
+  /** Article author */
   author: string
-  category: string
+  /** Article category */
+  category?: string
+  /** Article publication date */
   date: string
-  description: string
+  /** Article description */
+  description?: string
+  /** Article ID */
   id: string
-  isRead: boolean
+  /** Whether the article has already been read */
+  isRead?: boolean
+  /** Article link */
   link: string
+  /** Article title */
   title: string
+  /** Torrent download URL */
   torrentURL: string
 }

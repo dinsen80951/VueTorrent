@@ -1,68 +1,48 @@
-import Vue from 'vue'
-import type { Framework } from 'vuetify'
-import Vuetify from 'vuetify/lib'
-import { Ripple } from 'vuetify/lib/directives'
+import 'vuetify/styles'
+import themes, { DarkRedesigned } from '@/themes'
+import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
+import '@mdi/font/css/materialdesignicons.css'
 
-Vue.use(Vuetify, {
-  directives: {
-    Ripple
-  }
-})
-
-import colors from 'vuetify/lib/util/colors'
-
-// import variables from '@/styles/colors.scss'
-// broke the variable import when updating deps
-const variables = {
-  // Main colors
-  primary: '#35495e',
-  secondary: '#3e556d',
-  download: '#64CEAA',
-  upload: '#00b3fa',
-  // Torrent status colors
-  'torrent-done': '#16573e',
-  'torrent-downloading': '#5bb974',
-  'torrent-fail': '#f83e70',
-  'torrent-paused': '#9CA3AF',
-  'torrent-queued': '#2e5eaa',
-  'torrent-seeding': '#4ecde6',
-  'torrent-checking': '#ff7043',
-  'torrent-stalled': '#4ADE80',
-  'torrent-metadata': '#7e57c2',
-  'torrent-moving': '#ffaa2c'
-}
-
-export default new Vuetify({
+export default createVuetify({
+  components,
+  directives,
+  display: {
+    mobileBreakpoint: 'sm'
+  },
   icons: {
-    iconfont: 'mdiSvg'
+    defaultSet: 'mdi'
   },
   theme: {
-    options: {
-      customProperties: true
+    defaultTheme: DarkRedesigned.id,
+    variations: {
+      colors: [
+        'primary',
+        'secondary',
+        'torrent-allocating',
+        'torrent-checking_disk',
+        'torrent-checking_resume_data',
+        'torrent-dl_forced',
+        'torrent-dl_stopped',
+        'torrent-dl_queued',
+        'torrent-dl_stalled',
+        'torrent-downloading',
+        'torrent-error',
+        'torrent-forced_meta_download',
+        'torrent-meta_download',
+        'torrent-missing_files',
+        'torrent-moving',
+        'torrent-ul_forced',
+        'torrent-ul_stopped',
+        'torrent-ul_queued',
+        'torrent-ul_stalled',
+        'torrent-unknown',
+        'torrent-uploading'
+      ],
+      lighten: 3,
+      darken: 3
     },
-    dark: false,
-    themes: {
-      light: {
-        accent: '#64CEAA',
-        background: colors.grey.lighten4,
-        selected: colors.grey.lighten2,
-        red: colors.red.accent2,
-        ...variables
-      },
-      dark: {
-        accent: '#64CEAA',
-        background: '#121212',
-        selected: colors.grey.darken1,
-        red: colors.red.accent3,
-        ...variables
-      }
-    }
+    themes
   }
 })
-
-declare module 'vue/types/vue' {
-  // this.$vuetify inside Vue components
-  interface Vue {
-    $vuetify: Framework
-  }
-}

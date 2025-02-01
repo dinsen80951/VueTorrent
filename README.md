@@ -1,63 +1,62 @@
-<div>
-  <img align="left" width="200" src="https://cdn.jsdelivr.net/gh/WDaan/VueTorrent/VueTorrent-logo.png" alt="VueTorrent"/>
-  <h1>VueTorrent</h1>
-  <p>The sleekest looking WebUI for qBittorrent made with Vue.js!</p>
-</div>
+# VueTorrent
 
-![Vue](https://img.shields.io/badge/Vue-%5E2.7.14-brightgreen) ![qBittorrent](https://img.shields.io/badge/qBittorrent-4.4%2B-brightgreen)
-![Vuetify](https://img.shields.io/badge/Vuetify-%5E2.6.10-brightgreen)
+The sleekest looking WebUI for qBittorrent made with Vue.js!
 
-![stars](https://img.shields.io/github/stars/WDaan/VueTorrent) ![Forks](https://img.shields.io/github/forks/WDaan/VueTorrent)
-![Issues](https://img.shields.io/github/issues/WDaan/VueTorrent) ![Closed](https://img.shields.io/github/issues-closed/WDaan/VueTorrent)
-![Closed PR](https://img.shields.io/github/issues-pr-closed/WDaan/VueTorrent) ![Version](https://img.shields.io/github/v/release/wdaan/vuetorrent)
-![Test Status](https://img.shields.io/github/actions/workflow/status/wdaan/vuetorrent/test.yml) ![Downloads](https://img.shields.io/github/downloads/WDaan/VueTorrent/total)
+[![Discord](https://img.shields.io/discord/1170618192956243998?logo=discord)](https://discord.gg/KDQP7fR467)
+
+![VueTorrent](https://cdn.jsdelivr.net/gh/VueTorrent/VueTorrent@master/VueTorrent-logo.png)
+
+![Vue](https://img.shields.io/badge/Vue-%5E3.4.26-brightgreen) ![Vuetify](https://img.shields.io/badge/Vuetify-%5E3.6.4-brightgreen)
+![qBittorrent](https://img.shields.io/badge/qBittorrent-4.4%2B-brightgreen)
+
+![stars](https://img.shields.io/github/stars/VueTorrent/VueTorrent) ![Forks](https://img.shields.io/github/forks/VueTorrent/VueTorrent)
+![Issues](https://img.shields.io/github/issues/VueTorrent/VueTorrent) ![Closed](https://img.shields.io/github/issues-closed/VueTorrent/VueTorrent)
+![Closed PR](https://img.shields.io/github/issues-pr-closed/VueTorrent/VueTorrent) ![Version](https://img.shields.io/github/v/release/VueTorrent/vuetorrent)
+![Test Status](https://img.shields.io/github/actions/workflow/status/VueTorrent/vuetorrent/test.yml)
+![Downloads](https://img.shields.io/github/downloads/VueTorrent/VueTorrent/total)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor_Covenant-2.1-4baaaa.svg)](.github/CODE_OF_CONDUCT.md)
 
 ## Screenshots
 
 - Desktop
-<p align="middle">
-  <img src="readme_assets/screenshot-desktop.png" width="800" />
+
+<p>
+  <img src="public/screenshots/screenshot-desktop.jpeg" width="800" alt="Screenshot Desktop (Light Mode)" />
 </p>
 
 - Desktop Dark Mode
-<p align="middle">
-  <img src="readme_assets/screenshot-desktop-dark-mode.png" width="800" />
+
+<p>
+  <img src="public/screenshots/screenshot-desktop-dark-mode.jpeg" width="800" alt="Screenshot Desktop (Dark Mode)" />
 </p>
 
-- Mobile
-<p align="middle">
-  <img src="readme_assets/screenshot-mobile.png" width="400" />
-  <img src="readme_assets/screenshot-mobile-navbar.png" width="400" /> 
+- Mobile Light Mode
+
+<p>
+  <img src="public/screenshots/screenshot-mobile.jpeg" width="400" alt="Screenshot Mobile Dashboard (Light Mode)" />
+  <img src="public/screenshots/screenshot-mobile-navbar.jpeg" width="400" alt="Screenshot Mobile Navbar (Light Mode)" /> 
 </p>
 
 - Mobile Dark Mode
-<p align="middle">
-  <img src="readme_assets/screenshot-mobile-dark-mode.png" width="400" />
-  <img src="readme_assets/screenshot-mobile-navbar-dark-mode.png" width="400" /> 
+
+<p>
+  <img src="public/screenshots/screenshot-mobile-dark-mode.jpeg" width="400" alt="Screenshot Mobile Dashboard (Dark Mode)" />
+  <img src="public/screenshots/screenshot-mobile-navbar-dark-mode.jpeg" width="400" alt="Screenshot Mobile Navbar (Dark Mode)" /> 
 </p>
+
+## Demo
+
+A live demo **with mocked data** is available here: <https://vuetorrent.github.io/demo>
+
+<!-- prettier-ignore -->
+> [!NOTE]
+> This version isn't connected to a qBittorrent instance.
+>
+> Don't try to download torrents or change preferences, it won't work 😉
 
 ## Installation
 
-### Manual
-
-- Visit the [Releases](https://github.com/WDaan/VueTorrent/releases) page!
-- Download the latest `vuetorrent.zip`
-- Unzip the downloaded file
-- Point your alternate WebUI location to the `vuetorrent` folder in qBittorrent settings
-
-### From Source
-
-- Clone branch using
-  - `git clone --single-branch --branch latest-release https://github.com/WDaan/VueTorrent.git`
-- Pull changes every once in a while, using `git pull`
-
-If you like to always have the latest and greatest, please sync to the `nightly-release`-branch. This can contain breaking changes though.
-
-### Lazy/Easy
-
-- use [hotio's qbittorrent](https://hotio.dev/containers/qbittorrent/) docker image, that comes pre-packed with VueTorrent.
-
-[Alternative methods - May work for older QBit versions](../../wiki/Alternative_Installation_Methods)
+Checkout the [wiki](https://github.com/VueTorrent/VueTorrent/wiki/Installation)!
 
 ## Development
 
@@ -66,9 +65,10 @@ If you like to always have the latest and greatest, please sync to the `nightly-
 - `npm start`
 - `npm run lint` (to format the code)
 - `docker-compose up -d` (starts a qbittorrent docker, optional)
-- Open the WebUI on localhost with the default username `admin` and password `adminadmin`.
-- Make sure CSRF protection is disabled on the target server!
-- Edit `env.development` to tweak your dev environment (e.g. fake torrents)
+- Open the WebUI on localhost with the default credentials
+  - See #1720 for more details
+- Make sure WebUI > "Host header validation" is disabled in the qBittorrent preferences
+- Edit `env.development` to tweak your dev environment (e.g. mocked data)
 
 ## Features
 
@@ -77,11 +77,18 @@ If you like to always have the latest and greatest, please sync to the `nightly-
   - selectively download files
   - view info / trackers / peers / content / tags & categories
   - search for new torrents straight from the WebUI!
-  - search filtering powered by Fuse.js!
 - Keyboard shortcuts!
-  - select all torrents with <kbd>Ctrl</kbd>-<kbd>A</kbd>
-  - delete selected torrents with <kbd>delete</kbd>
-  - <kbd>Shift</kbd>-click to select from one torrent
+  - Mac keymap is supported (use <kbd>Cmd</kbd> instead of <kbd>Ctrl</kbd>)
+  - Press <kbd>Escape</kbd> to dismiss any dialogs or to return to Dashboard view
+  - Dashboard
+    - Select all torrents with <kbd>Ctrl</kbd>-<kbd>A</kbd>
+    - Focus search input with <kbd>Ctrl</kbd>-<kbd>F</kbd>
+      - Press again to enable native browser search
+    - When no dialogs are opened, press <kbd>Escape</kbd> to unfocus search input
+      - Press again to unselect all torrents
+    - Delete selected torrents with <kbd>Delete</kbd> (<kbd>Fn</kbd>-<kbd>Backspace</kbd> on Mac)
+    - <kbd>Ctrl</kbd>-click on a torrent card to enable multi-select mode
+    - Hold <kbd>Shift</kbd> and click on a torrent card to select all torrents between the last selected torrent and the clicked torrent
 - System
   - see session stats (down / upload speed, session uploaded / downloaded, free space)
   - beautiful transfer graphs
@@ -89,26 +96,43 @@ If you like to always have the latest and greatest, please sync to the `nightly-
 - Extra features the default WebUI doesn't have
   - mobile friendly! (can be installed as a PWA)
   - Configureable Dashboard: choose which torrent properties are shown for both busy and completed torrents
-- works with qBittorrent v4.4 and later
+- Optimized for the latest version of qBittorrent
+- Additional backend for improved experience, [see the repo for more info](https://github.com/VueTorrent/vuetorrent-backend)
+  - This is a work in progress, and is not required to use VueTorrent
+  - Stores server-side settings
+- Supports [qBittorrent Enhanced Edition](https://github.com/c0re100/qBittorrent-Enhanced-Edition) preferences
+
+## Important Information
+
+VueTorrent is a **WebUI** (think of it as a "visual skin") that uses qBittorrent's API, enabling compatibility with automation solutions like the Servarr stack.
+
+Everything that is compatible with the classic qBittorrent WebUI will work regardless of the WebUI you chose to use, whether its VueTorrent or another one.
 
 ## Contributing
 
-I'll gladly accept help/pull requests & advice!
+We gladly accept contributions!
 
-[FAQ](../../wiki/FAQ)
+Any help is appreciated, whether it's reporting bugs, suggesting enhancements, contributing code or localizing the app.
+
+See the [Contributing Guidelines](https://github.com/VueTorrent/VueTorrent/blob/master/.github/CONTRIBUTING.md) for more information.
 
 ## Support
 
-Open up an issue 😛
+- [![Discord](https://img.shields.io/discord/1170618192956243998?logo=discord)](https://discord.gg/KDQP7fR467)
+- [![Wiki](https://img.shields.io/badge/Wiki-blue)](https://github.com/VueTorrent/VueTorrent/wiki)
+- [![FAQ](https://img.shields.io/badge/FAQ-orange)](https://github.com/VueTorrent/VueTorrent/wiki/FAQ)
 
-but before you do that:
+If any of the above didn't help, feel free to open an issue!
 
-- confirm you're on the latest version of VueTorrent
-- confirm there is no other issue mentioning the same problem
+See the [Contributing Guidelines](https://github.com/VueTorrent/VueTorrent/blob/master/.github/CONTRIBUTING.md) for more information.
 
-<a href="https://www.buymeacoffee.com/wdaan"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=wdaan&button_colour=FFDD00&font_colour=000000&font_family=Arial&outline_colour=000000&coffee_colour=ffffff"></a>
+## Funding
 
-## Credits
+All donations are appreciated but purely optional.
 
-- [qBittorrent](https://github.com/qbittorrent/qBittorrent)
-- Many thanks [@m4ximuel](https://github.com/m4ximuel) for designing the icon & helping out with the project
+Checkout the sponsor section of the repository.
+
+## Contributors
+
+- [@m4ximuel](https://github.com/m4ximuel)
+- [@Larsluph](https://github.com/Larsluph)

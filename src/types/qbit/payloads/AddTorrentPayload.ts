@@ -1,36 +1,67 @@
-import type { BasePayload } from '.'
+import { ContentLayout, ShareLimitAction, StopCondition } from '@/constants/qbit/AppPreferences'
 
-export default interface AddTorrentPayload extends BasePayload {
+export default interface AddTorrentPayload {
+  /** Whether to add the torrent at the top of the queue */
+  addToTopOfQueue?: boolean
   /** Whether Automatic Torrent Management should be used */
   autoTMM?: boolean
   /** Category for the torrent */
   category?: string
-  /** Cookie sent to download the .torrent file */
+  /** Content layout used when creating the torrent */
+  contentLayout?: ContentLayout
+  /** Cookie sent to download the files using HTTP(S) */
   cookie?: string
   /** Set torrent download speed limit. Unit in bytes/second */
   dlLimit?: number
-  /** Prioritize download first last piece. Possible values are true, false (default) */
+  /**
+   * If enabled and set, will use this location to save torrent content when downloading
+   * Otherwise, use `savepath` or default save path
+   */
+  downloadPath?: string
+  /** Prioritize download first last piece */
   firstLastPiecePrio?: boolean
-  /** Add torrents in the paused state. Possible values are true, false (default) */
+  /**
+   * Set inactive torrent seeding time limit. Unit in minutes
+   * - -1 to disable
+   * - -2 to use global value
+   */
+  inactiveSeedingTimeLimit?: number
+  /**
+   * Add torrents in the stopped state
+   * @deprecated since 5.X, use stopped instead
+   */
   paused?: boolean
   /** Set torrent share ratio limit */
   ratioLimit?: number
   /** Rename torrent */
   rename?: string
-  /** Create the root folder. Possible values are true, false, unset (default) */
-  root_folder?: boolean
-  /** Download folder */
+  /**
+   * Will use this location to save torrent content when download is complete
+   * It will also be used when `downloadPath` is disabled or not set
+   */
   savepath?: string
   /** Set torrent seeding time limit. Unit in minutes */
   seedingTimeLimit?: number
-  /** Enable sequential download. Possible values are true, false (default) */
+  /** Enable sequential download */
   sequentialDownload?: boolean
-  /** Skip hash checking. Possible values are true, false (default) */
+  /** TODO */
+  shareLimitAction?: ShareLimitAction
+  /** Skip hash checking */
   skip_checking?: boolean
+  /** TODO */
+  ssl_certificate?: string
+  /** TODO */
+  ssl_dh_params?: string
+  /** TODO */
+  ssl_private_key?: string
+  /** Torrent stop condition */
+  stopCondition?: StopCondition
+  /** Add torrents in the stopped state */
+  stopped?: boolean
   /** Tags for the torrent, split by ',' */
   tags?: string
   /** Set torrent upload speed limit. Unit in bytes/second */
   upLimit?: number
-  /** URLs separated with newlines */
-  urls?: string
+  /** Whether to enable use of `downloadPath` */
+  useDownloadPath?: boolean
 }

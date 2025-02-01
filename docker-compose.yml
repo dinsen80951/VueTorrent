@@ -1,18 +1,19 @@
-version: '3.6'
 services:
   qbit:
     image: linuxserver/qbittorrent:latest
     container_name: qbit
+    restart: unless-stopped
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/London
       - UMASK_SET=022
+      - TZ=Europe/London
       - WEBUI_PORT=8080
+      - DOCKER_MODS=ghcr.io/vuetorrent/vuetorrent-lsio-mod:latest
     volumes:
-      - ./config:/config
-      - ./Downloads:/downloads
-      - ./vuetorrent:/vuetorrent
+      - ./docker/config:/config
+      - ./docker/downloads:/downloads
     ports:
-      - 8080:8080
-    restart: unless-stopped
+      - '8080:8080'
+      - '6881:6881'
+      - '6881:6881/udp'

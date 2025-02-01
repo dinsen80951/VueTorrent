@@ -1,23 +1,21 @@
-import Vue from 'vue'
-import axios from 'axios'
-import VueI18n from 'vue-i18n'
+import { createI18n } from 'vue-i18n'
+import { defaultLocale, fallbackLocale, messages } from '@/locales'
 
-import { defaultLocale, messages } from '@/lang'
-
-Vue.use(VueI18n)
-
-export const i18n = new VueI18n({
-  locale: defaultLocale, // set locale
-  fallbackLocale: defaultLocale,
-  silentTranslationWarn: true,
+export default createI18n({
+  legacy: false,
+  locale: defaultLocale,
+  fallbackLocale,
   messages,
-  pluralizationRules: {
-    ru: function (choice, choicesLength) {
+  pluralRules: {
+    ru: (choice, choicesLength) => {
       if (choice === 0) {
         return 0
       }
       const teen = choice > 10 && choice < 20
       const endsWithOne = choice % 10 === 1
+      if (choicesLength == 2) {
+        return choice === 1 ? 0 : 1
+      }
       if (choicesLength < 4) {
         return !teen && endsWithOne ? 1 : 2
       }
@@ -31,13 +29,3 @@ export const i18n = new VueI18n({
     }
   }
 })
-
-export function setLanguage(lang: string) {
-  i18n.locale = lang
-  axios.defaults.headers.common['Accept-Language'] = lang
-  document.querySelector('html')?.setAttribute('lang', lang)
-
-  return lang
-}
-
-export default i18n

@@ -1,7 +1,6 @@
-import type { TorrentState } from '@/enums/qbit'
-import { Priority } from '@/enums/qbit'
+import type { TorrentState } from '@/constants/qbit'
 
-export default interface Torrent {
+export interface RawTorrent {
   /** Time (Unix Epoch) when the torrent was added to the client */
   added_on: number
   /** Amount of data left to download (bytes) */
@@ -12,6 +11,11 @@ export default interface Torrent {
   availability: number
   /** Category of the torrent */
   category: string
+  /**
+   * Torrent comment
+   * @since 5.0.0
+   */
+  comment?: string
   /** Amount of transfer data completed (bytes) */
   completed: number
   /** Time (Unix Epoch) when the torrent completed */
@@ -22,7 +26,7 @@ export default interface Torrent {
   dl_limit: number
   /** Torrent download speed (bytes/s) */
   dlspeed: number
-  /** TODO */
+  /** Torrent download path */
   download_path: string
   /** Amount of data downloaded */
   downloaded: number
@@ -34,16 +38,21 @@ export default interface Torrent {
   f_l_piece_prio: boolean
   /** True if force start is enabled for this torrent */
   force_start: boolean
-  /** Torrent hash */
-  hash: string
-  /** TODO */
+  /**
+   * Whether metadata has been downloaded or not, only useful for magnet links
+   * @since 5.0.0
+   */
+  has_metadata?: boolean
+  inactive_seeding_time_limit: number
+  /** Torrent SHA1 Hash */
   infohash_v1: string
-  /** TODO */
+  /** Torrent SHA256 Hash (only in LibTorrent v2) */
   infohash_v2: string
   /** Last time (Unix Epoch) when a chunk was downloaded/uploaded */
   last_activity: number
   /** Magnet URI corresponding to this torrent */
   magnet_uri: string
+  max_inactive_seeding_time: number
   /** Maximum share ratio until torrent is stopped from seeding/uploading */
   max_ratio: number
   /** Maximum seeding time (seconds) until torrent is stopped from seeding */
@@ -58,19 +67,39 @@ export default interface Torrent {
   num_leechs: number
   /** Number of seeds connected to */
   num_seeds: number
+  /**
+   * Ratio / Time Active (in months), indicates how popular the torrent is
+   * @since 5.0.0
+   */
+  popularity?: number
   /** Torrent priority. Returns -1 if queuing is disabled or torrent is in seed mode */
-  priority: Priority
+  priority: number
+  /**
+   * Whether torrent is private or not
+   * @since 5.0.0
+   */
+  private?: boolean
   /** Torrent progress (percentage/100) */
   progress: number
   /** Torrent share ratio. Max ratio value: 9999. */
   ratio: number
-  /** TODO */
+  /** Upload share ratio limit */
   ratio_limit: number
+  /**
+   * Seconds until next tracker reannounce
+   * @since 5.0.0
+   */
+  reannounce?: number
+  /**
+   * TODO
+   * @since 5.1.0
+   */
+  root_path?: string
   /** Path where this torrent's data is stored */
   save_path: string
   /** Torrent elapsed time while complete (seconds) */
   seeding_time: number
-  /** TODO */
+  /** Upload seeding time limit */
   seeding_time_limit: number
   /** Time (Unix Epoch) when this torrent was last seen complete */
   seen_complete: number
@@ -90,7 +119,7 @@ export default interface Torrent {
   total_size: number
   /** The first tracker with working status. Returns empty string if no tracker is working. */
   tracker: string
-  /** TODO */
+  /** The number of trackers registered for that torrent */
   trackers_count: number
   /** Torrent upload speed limit (bytes/s). -1 if unlimited. */
   up_limit: number
@@ -100,4 +129,9 @@ export default interface Torrent {
   uploaded_session: number
   /** Torrent upload speed (bytes/s) */
   upspeed: number
+}
+
+export interface Torrent extends RawTorrent {
+  /** Torrent hash */
+  hash: string
 }
